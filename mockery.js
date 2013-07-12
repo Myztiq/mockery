@@ -47,6 +47,7 @@ var m = require('module'),
         warnOnReplace: true,
         warnOnUnregistered: true
     },
+    path = require('path'),
     options = {};
 
 /*
@@ -94,6 +95,10 @@ function hookedLoader(request, parent, isMain) {
 
     if (!originalLoader) {
         throw new Error("Loader has not been hooked");
+    }
+
+    if(request.indexOf('.') == 0){
+      request = path.resolve(path.dirname(parent.filename),request)
     }
 
     if (registeredMocks.hasOwnProperty(request)) {
